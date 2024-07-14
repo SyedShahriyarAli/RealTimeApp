@@ -1,0 +1,51 @@
+@page "/chat"
+@using Microsoft.AspNetCore.SignalR.Client
+
+@inject NavigationManager NavigationManager
+
+<h3>Chat</h3>
+
+<input @bind="userInput" placeholder="Your name" class="form-control" />
+<br>
+<input @bind="messageInput" placeholder="Your message" @onkeypress="@(e => { if (e.Key == "Enter") Send().GetAwaiter().GetResult(); })" class="form-control" />
+<br>
+
+<div style="text-align: right">
+    <button @onclick="Send" class="btn btn-primary">Send</button>
+</div>
+
+<ul>
+    @foreach (var message in messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+    private HubConnection hubConnection;
+    private string userInput;
+    private string messageInput;
+    private List<string> messages = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5258/chathub")
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var encodedMsg = $"{user}: {message}";
+            messages.Add(encodedMsg);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task Send()
+    {
+        await hubConnection.SendAsync("SendMessage", userInput, messageInput);
+        messageInput = string.Empty;
+    }
+}

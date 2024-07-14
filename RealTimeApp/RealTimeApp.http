@@ -1,0 +1,6 @@
+@RealTimeApp_HostAddress = http://localhost:5258
+
+GET {{RealTimeApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
