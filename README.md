@@ -22,7 +22,7 @@ In this project, you'll find:
 
 - Clone the repository:
 ```
-git clone https://github.com/yourusername/RealTimeApp.git
+git clone https://github.com/SyedShahriyarAli/RealTimeApp.git
 cd RealTimeApp
 ```
 
