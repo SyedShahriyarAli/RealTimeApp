@@ -1,5 +1,3 @@
-![image](https://blogs.shahriyarali.com/assets/images/realtimeapp.png)
-
 ## RealTimeApp
 This repository contains a comprehensive example of a real-time web application built using SignalR, WebAssembly, and ASP.NET Core API.
 
